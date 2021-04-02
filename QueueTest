@@ -2,7 +2,6 @@
 #include<malloc.h>
 #include<stdlib.h>
 
-#define SIZE 5;
 typedef int DATA;
 
 typedef struct Queue {
@@ -15,7 +14,7 @@ typedef struct Queue {
 void createQueue(Queue* Q, int size) {
 	Q->queueData = (DATA*)malloc(sizeof(DATA) * size);
 	Q->size = size;
-}
+} //큐 
 
 int is_full(Queue *Q) {
 	if (Q->tail >= Q->size-1)
@@ -29,7 +28,7 @@ int is_empty(Queue *Q) {
 		return 1;
 	else
 		return 0;
-}
+} 
 
 int enQueue(Queue *Q, DATA e) {
 	if (is_full(Q) == 1) {
@@ -41,7 +40,7 @@ int enQueue(Queue *Q, DATA e) {
 		Q->queueData[Q->tail] = e;
 		printf("%d is queued.\n", e);
 	}
-}
+} //데이터를 줄을 세우는 함수
 
 DATA deQueue(Queue *Q) {
 	DATA element = 0;
@@ -56,8 +55,8 @@ DATA deQueue(Queue *Q) {
 		Q->queueData[Q->tail] = NULL;
 		Q->tail--;
 		return(element);
-	}
-}
+	} // 헤드를 반환하고 남은 대기열을 배열의 0번 인덱스부터 다시 채워 넣음.
+} // 헤드를 반환하는 함수
 
 int printQueue(Queue *q) {
 	if (is_empty(q) == 1) {
@@ -68,7 +67,7 @@ int printQueue(Queue *q) {
 		printf("[%d] ", q->queueData[i]);
 	}
 	printf("\n");
-}
+} //큐 출력 함수
 
 int main() {
 	Queue Q;
