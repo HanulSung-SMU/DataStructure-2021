@@ -1,0 +1,111 @@
+#include<stdio.h>
+#include<malloc.h>
+#include<stdlib.h>
+
+#define SIZE 5;
+typedef int DATA;
+
+typedef struct Queue {
+	int head = 0;
+	int tail = -1;
+	int size = 0;
+	DATA* queueData;
+};
+
+void createQueue(Queue* Q, int size) {
+	Q->queueData = (DATA*)malloc(sizeof(DATA) * size);
+	Q->size = size;
+}
+
+int is_full(Queue *Q) {
+	if (Q->tail >= Q->size-1)
+		return 1;
+	else
+		return 0;
+}
+
+int is_empty(Queue *Q) {
+	if (Q->tail == -1)
+		return 1;
+	else
+		return 0;
+}
+
+int enQueue(Queue *Q, DATA e) {
+	if (is_full(Q) == 1) {
+		printf("error: the Queue is full\n");
+		return 1;
+	}
+	else {
+		Q->tail++;
+		Q->queueData[Q->tail] = e;
+		printf("%d is queued.\n", e);
+	}
+}
+
+DATA deQueue(Queue *Q) {
+	DATA element = 0;
+	if (is_empty(Q) == 1)
+		printf("error: the Queue is empty\n");
+	else {
+		element = Q->queueData[Q->head];
+		for (int i = 0; i < Q->tail; i++)
+		{
+			Q->queueData[i] = Q->queueData[i + 1];
+		}
+		Q->queueData[Q->tail] = NULL;
+		Q->tail--;
+		return(element);
+	}
+}
+
+int printQueue(Queue *q) {
+	if (is_empty(q) == 1) {
+		printf("the Queue is empty\n");
+		return 0;
+	}
+	for (int i = 0; i < q->size; i++) {
+		printf("[%d] ", q->queueData[i]);
+	}
+	printf("\n");
+}
+
+int main() {
+	Queue Q;
+	int size;
+	int menu;
+	int element;
+	printf("Queue tester 1.0\n");
+	printf("input size of Queue(-1 to exit): ");
+	scanf_s("%d", &size);
+	createQueue(&Q, size);
+		while (size > -1) {
+			printf("1. enQueue   2. deQueue   3. printQueue    4. exit\n select menu: ");
+			scanf_s("%d", &menu);
+			while (menu == 1) {
+				printf("input number you want to Queue: ");
+				scanf_s("%d", &element);
+				enQueue(&Q, element);
+				break;
+			}
+
+			while (menu == 2) {
+				printf("%d has dequeued. \n",deQueue(&Q));
+				break;
+			}
+
+			while (menu == 3) {
+				printQueue(&Q);
+				break;
+			}
+			while (menu == 4) {
+				free(Q.queueData);
+				size = -1;
+				break;
+			}
+		}
+		while (size == -1) {
+			printf("Bye Bye ^______^\n");
+			return 0;
+		}
+}
