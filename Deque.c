@@ -27,7 +27,7 @@ int is_empty(Deque *q) {
     else 
         return 0;
 }
-/*        덱이 포화인지 검사        */
+
 int is_full(Deque *q) {
     if (((q->rear + 1) % MAX_DEQUE_SIZE) == q->front) 
         return 1;
