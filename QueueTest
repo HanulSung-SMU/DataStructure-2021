@@ -65,7 +65,7 @@ int printQueue(Queue *q) {
 		printf("the Queue is empty\n");
 		return 0;
 	}
-	for (int i = 0; i < q->size; i++) {
+	for (int i = 0; i < q->tail+1; i++) {
 		printf("[%d] ", q->queueData[i]);
 	}
 	printf("\n");
