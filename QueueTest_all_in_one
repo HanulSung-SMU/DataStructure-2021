@@ -1,0 +1,171 @@
+#include<stdio.h>
+#include<malloc.h>
+#include<stdlib.h>
+
+typedef int DATA;
+typedef struct Queue {
+	int head = 0;
+	int tail = -1;
+	int size = 0;
+	DATA* queueData;
+};
+void createQueue(Queue* Q, int size) {
+	Q->queueData = (DATA*)malloc(sizeof(DATA) * size*10);
+	Q->size = size;
+}
+int is_full(Queue *Q) {
+	if (Q->tail >= Q->size-1)
+		return 1;
+	else
+		return 0;
+}
+int is_empty(Queue *Q) {
+	if (Q->tail == -1)
+		return 1;
+	else
+		return 0;
+}
+void empty(Queue* Q) {
+	if (Q->tail == -1)
+		printf("%d\n", 1);
+	else
+		printf("%d\n", 0);
+}
+int add_tail(Queue *Q, DATA e) {
+	if (is_full(Q) == 1) {
+		printf("error: the Queue is full\n");
+		return 1;
+	}
+	else {
+		Q->tail++;
+		Q->queueData[Q->tail] = e;
+		printf("add %d to the tail.\n", e);
+	}
+}
+void get_front(Queue* Q) {
+	DATA element = 0;
+	if (is_empty(Q) == 1){
+		printf("error: the Queue is empty\n");
+		}
+	else {
+		element = Q->queueData[Q->head];
+		for (int i = 0; i < Q->tail; i++)
+		{
+			Q->queueData[i] = Q->queueData[i + 1];
+		}
+		Q->queueData[Q->tail] = NULL;
+		Q->tail--;
+		printf("get %d from front. \n", element);
+	}
+}
+void front(Queue* Q) {
+	printf("%d is at the front\n", Q->queueData[Q->head]);
+}
+void tail(Queue* Q) {
+	printf("%d is at the tail\n", Q->queueData[Q->tail]);
+}
+void count(Queue* Q) {
+	int num;
+	num = Q->tail+1;
+	printf("%d there are numbers of integers.\n",num);
+}
+int add_front(Queue* Q, DATA e) {
+	if (is_full(Q) == 1) {
+		printf("error: the Queue is full\n");
+		return 1;
+	}
+	else {
+		for (int i = Q->size; i > 0; i--) {
+			Q->queueData[i] = Q->queueData[i - 1];
+		}
+		Q->queueData[0] = e;
+		Q->tail++;
+		printf("add %d to the front.\n", e);
+	}
+}
+void get_tail(Queue* Q) {
+	DATA element = 0;
+	if (is_empty(Q) == 1) {
+		printf("-1\n");
+	}
+	else {
+		element = Q->queueData[Q->tail];
+		Q->queueData[Q->tail] = NULL;
+		Q->tail--;
+		printf("get %d from tail. \n", element);
+	}
+}
+int printQueue(Queue *q) {
+	if (is_empty(q) == 1) {
+		printf("-1\n");
+		return 0;
+	}
+	for (int i = 0; i < q->tail+1; i++) {
+		printf("[%d] ", q->queueData[i]);
+	}
+	printf("\n");
+}
+
+int main() {
+	Queue Q;
+	int size;
+	int menu;
+	int element;
+	printf("Queue tester 2.0\n 백준 알고리즘 추가\n ");
+	printf("input size of Queue(-1 to exit): ");
+	scanf_s("%d", &size);
+	createQueue(&Q, size);
+		while (size > -1) {
+			printf("_______________________________________________________________\n1. add_front 2. get_front 3. add_tail 4. get_tail 5. printQueue  \n6. front   7. tail   8. count  9. empty  10. exit\n select menu: ");
+			scanf_s("%d", &menu);
+			while (menu == 1) {
+				printf("input number you want to add_front: ");
+				scanf_s("%d", &element);
+				add_front(&Q, element);
+				break;
+			} // add_front
+			while (menu == 2) {
+				get_front(&Q);
+				break;
+			} // get_front
+			while (menu == 3) {
+				printf("input number you want to add_tail: ");
+				scanf_s("%d", &element);
+				add_tail(&Q, element);
+				break;
+			} // add_tail
+			while (menu == 4) {
+				get_tail(&Q);
+				break;
+			} // get_tail
+			while (menu == 5) {
+				printQueue(&Q);
+				break;
+			} // printQueue: 중요도와 관계없이 처음부터 큐를 출력함.
+			while (menu == 6) {
+				front(&Q);
+				break;
+			} // front: 제일 앞에 있는 인자를 출력함.
+			while (menu == 7) {
+				tail(&Q);
+				break;
+			} // tail: 제일 뒤에 있는 인자를 출력함.
+			while (menu == 8) {
+				count(&Q);
+				break;
+			} // 큐에 담긴 정수의 개수를 출력함.
+			while (menu == 9) {
+				empty(&Q);
+				break;
+			} // 큐가 비어있으면 1 출력 그렇지 않으면 0 출력
+			while (menu == 10) {
+				free(Q.queueData);
+				size = -1;
+				break;
+			} //종료
+		}
+		while (size == -1) {
+			printf("Bye Bye ^______^\n");
+			return 0;
+		}
+}
