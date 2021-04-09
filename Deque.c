@@ -58,7 +58,7 @@ void add_rear(Deque *q, element data) {  //덱의 뒤에 추가
     q->data[q->rear] = data;
 }
 
-element delete_front(Deque *q) { //덱의 앞의 요소를 반환후 삭제
+element delete_front(Deque *q) { //덱 앞에서 삭제
     if (is_empty(q)==1) {
         printf("공백큐\n");
         return 0;
@@ -68,7 +68,7 @@ element delete_front(Deque *q) { //덱의 앞의 요소를 반환후 삭제
     return tmp;
 }
 
-element delete_rear(Deque *q) { //덱의 뒤에 요소를 반환후 삭제 
+element delete_rear(Deque *q) { //덱의 뒤에서 삭제
     if (is_empty(q)==1) {
         printf("공백큐\n");
         return 0;
@@ -78,8 +78,7 @@ element delete_rear(Deque *q) { //덱의 뒤에 요소를 반환후 삭제
     return tmp;
 }
 
-/*        덱의 앞에 요소를 추가        */
-void add_front(Deque *q, element data) {
+void add_front(Deque *q, element data) { //덱 앞에서 추가
     if (is_full(q)==1) {
         printf("포화큐\n");
         return;
@@ -90,7 +89,6 @@ void add_front(Deque *q, element data) {
 }
 
 
-/*        덱의 모든 요소 print        */
 void deque_print(Deque *q) {
     int i = (q->front + 1) % MAX_DEQUE_SIZE;
     printf("덱(front=%d rear=%d) = ",q->front,q->rear);
