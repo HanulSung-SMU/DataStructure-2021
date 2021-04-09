@@ -8,28 +8,28 @@ typedef struct {
     int front, rear;
 } DequeType;
 
-//¿À·ù ÇÔ¼ö
+//ì˜¤ë¥˜ í•¨ìˆ˜
 void error(char* message) {
     fprintf(stderr, "%s\n", message);
     exit(1);
 }
 
-//ÃÊ±âÈ­
+//ì´ˆê¸°í™”
 void init_deque(DequeType* q) {
     q->front = q->rear = 0;
 }
 
-//°ø¹é »óÅÂ °ËÃâ ÇÔ¼ö
+//ê³µë°± ìƒíƒœ ê²€ì¶œ í•¨ìˆ˜
 int is_empty(DequeType* q) {
     return (q->front == q->rear);
 }
 
-//Æ÷È­ »óÅÂ °ËÃâ ÇÔ¼ö
+//í¬í™” ìƒíƒœ ê²€ì¶œ í•¨ìˆ˜
 int is_full(DequeType* q) {
     return ((q->rear + 1) % MAX_SIZE == q->front);
 }
 
-//¿øÇüÅ¥ Ãâ·Â ÇÔ¼ö
+//ì›í˜•í ì¶œë ¥ í•¨ìˆ˜
 void deque_print(DequeType* q) {
     printf("DEQUE(front = %d rear = %d) = ", q->front, q->rear);
     if (!is_empty(q)) {
@@ -44,32 +44,32 @@ void deque_print(DequeType* q) {
     printf("\n");
 }
 
-//»ğÀÔ ÇÔ¼ö
+//ì‚½ì… í•¨ìˆ˜
 void add_rear(DequeType* q, element item) {
     if (is_full(q))
-        error("Å¥°¡ Æ÷È­»óÅÂÀÔ´Ï´Ù.");
+        error("íê°€ í¬í™”ìƒíƒœì…ë‹ˆë‹¤.");
     q->rear = (q->rear + 1) % MAX_SIZE;
     q->data[q->rear] = item;
 }
 
-//»èÁ¦ ÇÔ¼ö
+//ì‚­ì œ í•¨ìˆ˜
 element delete_front(DequeType* q) {
     if (is_empty(q))
-        error("Å¥°¡ °ø¹é»óÅÂÀÔ´Ï´Ù.");
+        error("íê°€ ê³µë°±ìƒíƒœì…ë‹ˆë‹¤.");
     q->front = (q->front + 1) % MAX_SIZE;
     return q->data[q->front];
 }
 
-//»èÁ¦ ÇÔ¼ö
+//ì‚­ì œ í•¨ìˆ˜
 element get_front(DequeType* q) {
     if (is_empty(q))
-        error("Å¥°¡ °ø¹é»óÅÂÀÔ´Ï´Ù.");
+        error("íê°€ ê³µë°±ìƒíƒœì…ë‹ˆë‹¤.");
     return q->data[(q->front + 1) % MAX_SIZE];
 }
 
 void add_front(DequeType* q, element val) {
     if (is_full(q))
-        error("Å¥°¡ Æ÷È­»óÅÂÀÔ´Ï´Ù.");
+        error("íê°€ í¬í™”ìƒíƒœì…ë‹ˆë‹¤.");
     q->data[q->front] = val;
     q->front = (q->front - 1 + MAX_SIZE) % MAX_SIZE;
 }
@@ -77,13 +77,13 @@ void add_front(DequeType* q, element val) {
 element delete_rear(DequeType* q) {
     int prev = q->rear;
     if (is_full(q))
-        error("Å¥°¡ Æ÷È­»óÅÂÀÔ´Ï´Ù.");
+        error("íê°€ í¬í™”ìƒíƒœì…ë‹ˆë‹¤.");
     q->rear = (q->rear - 1 + MAX_SIZE) % MAX_SIZE;
     return q->data[prev];
 }
 element get_rear(DequeType* q) {
     if (is_empty(q))
-        error("Å¥°¡ °ø¹é»óÅÂÀÔ´Ï´Ù.");
+        error("íê°€ ê³µë°±ìƒíƒœì…ë‹ˆë‹¤.");
     return q->data[q->rear];
 }
 
