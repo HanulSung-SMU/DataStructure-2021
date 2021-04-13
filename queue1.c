@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define MAX_QUEUE_SIZE 10
+#define MAX_QUEUE_SIZE 5
 
 typedef int element;
 typedef struct
@@ -34,41 +34,30 @@ void queue_print(QueueType *q)
     printf("\n");
 }
 
-int is_full(QueueType *q)
-{
-    if(q->rear == MAX_QUEUE_SIZE-1)
-        return 1;
-    else
-        return 0;
-}
-
-int is_empty(QueueType *q)
-{
-    if(q->front == q->rear)
-        return 1;
-    else
-        return 0;
-}
-
 void enqueue(QueueType *q, int item)
 {
-    if(is_full(q))
+    if(q->rear != MAX_QUEUE_SIZE-1)
+        q->data[++(q->rear)]=item;
+    else
     {
         error("큐가 포화상태입니다.");
         return;
     }
-    q->data[++(q->rear)]=item;
 }
 
 void dequeue(QueueType *q)
 {
-    if(is_empty(q))
+    if(q->rear != q->front || (q->rear==MAX_QUEUE_SIZE-1 && q->front==MAX_QUEUE_SIZE-1))
     {
+        for(int i=1; i<=q->rear ; i++)
+            q->data[i-1] = q->data[i];
+    (q->rear)--;
+    return;
+    }
+
+    else
         error("큐가 공백상태입니다.");
         return;
-    }
-    int item = q->data[++(q->front)];
-    return;
 }
 
 int main(void)
@@ -84,13 +73,13 @@ int main(void)
     enqueue(&q, 40); queue_print(&q);
     enqueue(&q, 50); queue_print(&q);
 
-
     dequeue(&q); queue_print(&q);
     dequeue(&q); queue_print(&q);
     dequeue(&q); queue_print(&q);
     dequeue(&q); queue_print(&q);
     dequeue(&q); queue_print(&q);
-
+    
     enqueue(&q, 60); queue_print(&q);
+    
     return 0;
 }
