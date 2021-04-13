@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define MAX_QUEUE_SIZE 5
+#define MAX_QUEUE_SIZE 10
 
 typedef int element;
 typedef struct
@@ -81,9 +81,16 @@ int main(void)
     enqueue(&q, 10); queue_print(&q);
     enqueue(&q, 20); queue_print(&q);
     enqueue(&q, 30); queue_print(&q);
+    enqueue(&q, 40); queue_print(&q);
+    enqueue(&q, 50); queue_print(&q);
+
 
     dequeue(&q); queue_print(&q);
     dequeue(&q); queue_print(&q);
     dequeue(&q); queue_print(&q);
+    dequeue(&q); queue_print(&q);
+    dequeue(&q); queue_print(&q);
+
+    enqueue(&q, 60); queue_print(&q);
     return 0;
 }
