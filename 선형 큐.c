@@ -31,14 +31,24 @@ int dequeue(queue* q) {
 	else
 		return q->data[++(q->head)];
 }
+int peek(queue* q) {
+	if (is_empty(q)) {
+		printf("memory is empty\n");
+		exit(1);
+	}
+	else
+		return q->data[(q->head) + 1];
+}
 void queue_print(queue* q) {
 	if (is_empty(q)) {
 		printf("memory is empty\n");
 		exit(1);
 	}
-	for (int i = q->head + 1; i <= q->tail; i++)
-		printf("%d ", q->data[i]);
-	printf("\n");
+	else {
+		for (int i = q->head + 1; i <= q->tail; i++)
+			printf("%d ", q->data[i]);
+		printf("\n");
+	}
 }
 int main(void)
 {
@@ -47,7 +57,8 @@ int main(void)
 	for (int i = 0; i < 5; i++)
 		enqueue(&q, i + 1);
 	queue_print(&q);
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 4; i++)
 		dequeue(&q);
+	printf("%d \n", peek(&q));
 	return 0;
 }
