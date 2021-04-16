@@ -26,7 +26,7 @@ int is_full(DequeType* q) {
 }
 
 void deque_print(DequeType* q) {
-	printf("DEQUE(head =%d rear = %d) =", q->front, q->rear);
+	printf("DEQUE(front =%d rear = %d) =", q->front, q->rear);
 	if (!is_empty(q)) {
 		int i = q->front;
 		do {
@@ -86,12 +86,12 @@ int main(void)
 
 	init_deque(&queue);
 	for (int i = 0; i < 3; i++) {
-		add_head(&queue, i);
+		add_front(&queue, i);
 		deque_print(&queue);
 	}
 
 	for (int i = 0; i < 3; i++) {
-		delete_tail(&queue);
+		delete_rear(&queue);
 		deque_print(&queue);
 	}
 	return 0;
