@@ -40,34 +40,34 @@ void deque_print(DequeType* q) {
 	printf("\n");
 }
 
-void add_tail(DequeType* q, element item) {
+void add_rear(DequeType* q, element item) {
 	if (is_full(q))
 		error("큐가 포화상태입니다.");
 	q->rear = (q->rear + 1) % MAX_QUEUE_SIZE;
 	q->data[q->rear] = item;
 }
 
-element delete_head(DequeType* q) {
+element delete_front(DequeType* q) {
 	if (is_empty(q))
 		error("큐가 공백상태입니다.");
 	q->front = (q->rear + 1) % MAX_QUEUE_SIZE;
 	return q->data[q->front];
 }
 
-element get_head(DequeType* q) {
+element get_front(DequeType* q) {
 	if (is_empty(q))
 		error("큐가 공백상태입니다.");
 	return q->data[(q->front + 1) % MAX_QUEUE_SIZE];
 }
 
-void add_head(DequeType* q, element val) {
+void add_front(DequeType* q, element val) {
 	if (is_full(q))
 		error("큐가 포화상태입니다.");
 	q->data[q->front] = val;
 	q->front = (q->front - 1 + MAX_QUEUE_SIZE) % MAX_QUEUE_SIZE;
 }
 
-element delete_tail(DequeType* q) {
+element delete_rear(DequeType* q) {
 	int prev = q->rear;
 	if (is_empty(q))
 		error("큐가 공백상태입니다.");
@@ -75,7 +75,7 @@ element delete_tail(DequeType* q) {
 	return q->data[prev];
 }
 
-element get_tail(DequeType* q) {
+element get_rear(DequeType* q) {
 	if (is_empty(q))
 		error("큐가 공백상태입니다.");
 	return q->data[q->rear];
