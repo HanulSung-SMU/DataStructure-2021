@@ -1,5 +1,5 @@
-#include stdio.h
-#include stdlib.h
+#include <stdio.h>
+#include <stdlib.h>
 #define MAX 10
 typedef struct
 {
@@ -8,21 +8,21 @@ typedef struct
   int data[MAX];
 } DequeType;
 
-void error(char message)
+void error(char *message)
 {
-  fprintf(stderr, %sn, message);
+  fprintf(stderr, "%s\n", message);
   exit(1);
 }
 
-void init_deque(DequeType d)
+void init_deque(DequeType *d)
 {
-  d-tail = -1;
-  d-head = -1;
+  d->tail = -1;
+  d->head = -1;
 }
 
-int is_full(DequeType d)
+int is_full(DequeType *d)
 {
-  if(d-tail == MAX - 1)
+  if(d->tail == MAX - 1)
   {
     return 1;
   }
@@ -32,9 +32,9 @@ int is_full(DequeType d)
   }
 }
 
-int is_empty(DequeType d)
+int is_empty(DequeType *d)
 {
-  if(d-head == d-tail)
+  if(d->head == d->tail)
   {
     return 1;
   }
@@ -44,84 +44,84 @@ int is_empty(DequeType d)
   }
 }
 
-void print_deque(DequeType d)
+void print_deque(DequeType *d)
 {
-  for(int i = 0; i  MAX; i++)
+  for(int i = 0; i < MAX; i++)
   {
-    if((d-data[i] == 0)  (i = d-head)  (i  d-tail))
+    if((d->data[i] == 0) || (i <= d->head) || (i > d->tail))
     {
-      printf( , );
+      printf(" , ");
     }
     else
     {
-      printf(%d, , d-data[i]);
+      printf("%d, ", d->data[i]);
     }
   }
-  printf(n);
+  printf("\n");
   return;
 }
 
-void add_head(DequeType d, int item)
+void add_head(DequeType *d, int item)
 {
   if(is_full(d))
   {
-    error(full error);
+    error("full error");
     return;
   }
   else
   {
-    for(int i = MAX; i  0; i--)
+    for(int i = MAX; i > 0; i--)
     {
-      d-data[i] = d-data[i - 1];
+      d->data[i] = d->data[i - 1];
     }
-    d-data[0] = item;
-    d-tail++;
+    d->data[0] = item;
+    d->tail++;
     print_deque(d);
   }
 }
 
-void add_tail(DequeType d, int item)
+void add_tail(DequeType *d, int item)
 {
   if(is_full(d))
   {
-    error(full error);
+    error("full error");
     return;
   }
   else
   {
-    d-data[++d-tail] = item;
+    d->data[++d->tail] = item;
     print_deque(d);
   }
 }
 
-void delete_head(DequeType d)
+void delete_head(DequeType *d)
 {
   if(is_empty(d))
   {
-    error(empty error);
+    error("empty error");
     return;
   }
   else
   {
-    for(int i = 0; i  MAX - 1; i++)
+    for(int i = 0; i < MAX - 1; i++)
     {
-      d-data[i] = d-data[i + 1];
+      d->data[i] = d->data[i + 1];
     }
-    d-data[d-tail--] = 0;
+    d->data[d->tail--] = 0;
     print_deque(d);
   }
 }
 
-void delete_tail(DequeType d)
+void delete_tail(DequeType *d)
 {
   if(is_empty(d))
   {
-    error(empty error);
+    error("empty error");
     return;
   }
   else
   {
-    d-data[d-tail--] = 0;
+    d->data[d->tail--] = 0;
     print_deque(d);
   }
 }
