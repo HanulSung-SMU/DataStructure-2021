@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 //노드
-typedef struct {
+typedef struct ListNode {
     int coef;
     int expon;
     struct ListNode *link;
@@ -56,7 +56,7 @@ void polyAdd(ListType* plist1, ListType* plist2, ListType* plist3) {
                 insert_last(plist3, sum, a->expon);
             a = a->link;
             b = b->link;
-            
+        }
             else if (a->expon > b->expon) {
                 insert_last(plist3, a->coef, a->expon);
                 a = a->link;
