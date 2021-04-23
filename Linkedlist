@@ -1,0 +1,73 @@
+#include<string.h>
+#include<stdio.h>
+#include <stdlib.h>
+
+typedef struct ListNode{
+    int data;
+    struct ListNode *link;//다음 노드를 가르키도록
+}ListNode;
+
+void error(char *message)
+{
+    fprintf(stderr, "%s\n", message);
+    return;
+}
+
+void print_list(ListNode *head)
+{
+    for (ListNode *p = head; p!=NULL;p=p->link)
+        printf("%d->",p->data);
+    printf("NULL \n");
+}
+
+ListNode* insert_first(ListNode *head, int value)
+{
+    ListNode *p = (ListNode *)malloc(sizeof(ListNode)); //새로운 노드를 하나 생성
+    p->data = value;
+    p->link = head;//head가 가르키던 곳을 새로 만든 p가 가르킨다
+    head=p; //head는 p를 가리키도록 한다
+    return head; //head 반환
+}
+ListNode* insert(ListNode *head, ListNode *pre, int value)//중간에 삽입
+{
+    ListNode *p = (ListNode *)malloc(sizeof(ListNode));
+    p->data = value;
+    p->link = pre->link;//이전의 노드가 가리키던 값을 새로운 p 노드가 가리킨다
+    pre->link = p;//이전에 노드는 p를 가리킨다
+    return head;
+}
+ListNode* delete_first(ListNode *head)
+{
+    ListNode *removed;
+    if (head == NULL) return NULL;
+    removed = head; //head가 가리키는 값을 removed 로
+    head = removed->link;
+    free(removed);
+    return head;
+}
+ListNode* delete(ListNode *head, ListNode *pre)
+{
+    ListNode *removed;
+    removed = pre->link; //pre->link 가 가리키는 값이 removed 가 된다
+    pre->link = removed->link; //pre->link는 removed가 가리키는 link값을 가리킨다.
+    free(removed);
+    return head;
+}
+
+int main(void)
+{
+    ListNode *head = NULL;//데이터 노드 처음 생성 = head, 아직 아무것도 가르키지 않은 상태
+    head = insert_first(head,1); print_list(head);
+    head = insert_first(head,2); print_list(head);
+    head = insert_first(head,3); print_list(head);
+    head = insert_first(head,4); print_list(head);
+    head = delete_first(head); print_list(head);
+    head = delete_first(head); print_list(head);
+    head = delete_first(head); print_list(head);
+    return 0;
+    
+}
+
+
+
+
