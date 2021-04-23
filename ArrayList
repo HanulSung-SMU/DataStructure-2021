@@ -1,0 +1,93 @@
+#include<string.h>
+#include<stdio.h>
+#define MAX_LIST_SIZE 100
+
+typedef int element;
+typedef struct{
+    int array[MAX_LIST_SIZE];
+    int size;
+}ArrayListType;
+
+void error(char *message)
+{
+    fprintf(stderr,"%s \n",message);
+    exit(1);
+}
+void init(ArrayListType *L)
+{
+    L->size = 0;
+}
+int get_entry(ArrayListType *L, int pos)
+{
+    if (pos <0 || pos >= L->size){
+        error("위치 오류");
+    }
+    return L->array[pos];
+}
+
+void insert_last(ArrayListType *L, element item) //
+{
+    if(L->size >=MAX_LIST_SIZE){ //리스트에 빈공간이 없는 경우
+        error("리스트 오버플로우");
+    }
+    L->array[L->size++]=item;//item 값 을 array의 제일 마지막에 부분에 저장
+}
+int is_empty(ArrayListType *L)
+{
+    if(L->size == 0)
+        return 1;
+    else   
+        return 0;
+}
+int is_full(ArrayListType *L)
+{
+     if(L->size == MAX_LIST_SIZE)
+        return 1;
+    else   
+        return 0;
+}
+
+void print_list(ArrayListType *L)
+{
+    int i;
+    for (i=0;i<L->size;i++)
+        printf("%d->",L->array[i]);
+    printf("\n");
+}
+
+void insert(ArrayListType *L, int pos, element item) //insert(&list,0,10);
+{           
+    if((is_full(L)==0) && (pos>=0)&&(pos<=L->size)) { //리스트가 비어있고 pos가 리스트의 배열 범위 내 값이면
+    
+        for(int i=(L->size -1); i>=pos; i--) //i가 배열 끝 부터 pos까지
+            L->array[i+1]=L->array[i];//배열의 값들을 하나씩 미루고
+        L->array[pos]=item;//pos 위치에 item 값을 넣는다.
+        L->size++;
+    }
+}
+
+element delete(ArrayListType *L,int pos)
+{
+    int item;
+    if (pos<0||pos>=L->size)//pos가 리스트 배열을 벗어나면
+        error("위치 오류");
+    item = L->array[pos];
+    for (int i=pos; i<(L->size-1); i++) //i가 pos에서 배열 끝까지
+        L->array[i]=L->array[i+1];//배열의 값들을 하나씩 당긴다
+    L->size--;
+    return item;
+}
+int main(void)
+{
+    ArrayListType list;
+    init(&list);
+    
+    insert(&list,0,10); print_list(&list);
+    insert(&list,0,20); print_list(&list);
+    insert(&list,2,30); print_list(&list);
+    insert(&list,1,40); print_list(&list);
+    delete(&list,0); print_list(&list);
+    
+    return 0;
+    
+}
