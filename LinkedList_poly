@@ -1,0 +1,118 @@
+#include <stdio.h>
+#include <stdlib.h>
+ 
+typedef struct ListNode//연결리스트 노드(데이터 필드+노드필드) 타입
+{
+    int coef;//계수
+    int expon;//차수
+    struct ListNode *link;//다음 노드를 가리키도록
+} ListNode;
+ 
+typedef struct ListType//연결리스트 헤더 타입
+{//효율적인 계산을 위해 첫 번째 노드와 마지막 노드를 가리키는 포인터를 동시에 사용
+    int size;
+    ListNode *head;//첫번째 노드르 가리킴
+    ListNode *tail;//마지막 노드를 가리킴
+} ListType;
+ 
+void error(char *message)
+{
+    fprintf(stderr,"%s\n",message);
+    exit(1);
+}
+ 
+ListType *create()
+{
+    ListType *plist = (ListType *)malloc(sizeof(ListType)); //plist라는 새로운 해드 생성
+    plist->size = 0;
+    plist->head = plist->tail = NULL;
+    return plist;
+}
+ 
+void insert_last(ListType *plist,int coef,int expon)
+{
+    ListNode *temp = (ListNode *)malloc(sizeof(ListNode)); //temp 라는 새로운 노드 타입 생성
+ 
+    if (temp == NULL) 
+        error("메모리 할당 에러");
+    temp->coef = coef;
+    temp->expon = expon;
+    temp->link = NULL;
+ 
+    if (plist->tail == NULL) //맨 뒤에 아무것도 가르키지 않는다면
+        plist->head = plist->tail = temp;
+    else
+    {
+        plist->tail->link = temp;
+        plist->tail = temp;
+    }
+    plist->size++;
+}
+ 
+void poly_add(ListType *plist1, ListType *plist2, ListType *plist3)
+{
+    ListNode *a = plist1->head; //새로운 리스트 노드 a는 매개 변수로 받은 plist1의 해드를 가르킨다.
+    ListNode *b = plist2->head; //새로운 리스트 노드 b는 매개 변수로 받은 plist2의 해드를 가르킨다.
+    int sum;
+ 
+    while (a && b)
+    {
+        if (a->expon == b->expon)//a의 차수와 b의 차수가 같다
+        {
+            sum = a->coef + b->coef;
+            if (sum != 0) insert_last(plist3,sum,a->expon);//새로운 항을 만들어 결과 다항식 plist3에 추가한다.
+            a = a->link; b = b->link;
+        }
+        else if (a->expon > b->expon)
+        {
+            insert_last(plist3,a->coef,a->expon);//a가 지시하는 항을 새로운 항으로 복사하여 결과 다항식 plist3에 추가
+            a = a->link;//a만 다음항으로 이동
+        }
+        else
+        {
+            insert_last(plist3,b->coef,b->expon);
+            b = b->link;
+        }
+    }
+    //연산이 끝난 후
+    for (; a != NULL; a = a->link) //b가 먼저 끝나서 a가 남아 있는 경우 a를 그대로 c에 복사
+        insert_last(plist3,a->coef,a->expon);
+    for (; b != NULL; b = b->link) //a가 먼저 끝나서 a가 남아 있는 경우 b를 그대로 c에 복사
+        insert_last(plist3,b->coef,b->expon);
+}
+ 
+void poly_print(ListType *plist)
+{
+    ListNode *p = plist->head; //새로운 리스트 노드 p는 매개 변수로 받은 plist의 해드를 가르킨다.
+ 
+    printf("polynomial = ");
+    for (; p != NULL; p = p->link)
+        printf("%d^%d + ",p->coef,p->expon);
+    puts("");
+}
+ 
+int main(void)
+{
+    ListType *list1,*list2,*list3;
+ 
+    list1 = create();
+    list2 = create();
+    list3 = create();
+ 
+    insert_last(list1,3,12);
+    insert_last(list1,2,8);
+    insert_last(list1,1,0);
+ 
+    insert_last(list2,8,12);
+    insert_last(list2,-3,10);
+    insert_last(list2,10,6);
+ 
+    poly_print(list1);
+    poly_print(list2);
+ 
+    poly_add(list1,list2,list3);
+    poly_print(list3);
+ 
+    free(list1); free(list2); free(list3);
+    return 0;
+}
