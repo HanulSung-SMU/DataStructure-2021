@@ -1,0 +1,114 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef int element;
+typedef struct ListNode{
+	int coef;
+	int expon;
+	struct ListNode* link;
+}ListNode;
+
+typedef struct ListType {
+	int size;
+	ListNode* head;
+	ListNode* tail;
+}ListType;
+
+void error(char* message)
+{
+	fprintf(stderr, "%s\n", message);
+	exit(1);
+}
+
+ListType* create() // 리스트 헤더 생성 함수
+{
+	ListType* plist = (ListType*)malloc(sizeof(ListType));
+	plist->size = 0; // 크기 0
+	plist->head = plist->tail = NULL; // head와 tail이 가리키는 값을 NULL로 설정
+	return plist;
+}
+
+void insert_last(ListType* plist, int coef, int expon) // 리스트의 맨 끝에 연결 리스트 삽입하는 함수
+{
+	ListNode* temp = (ListNode*)malloc(sizeof(ListNode));
+	if (temp == NULL) error("메모리 할당 오류");
+	temp->coef = coef; // 계수 대입
+	temp->expon = expon; // 지수 대입
+	temp->link = NULL; // 맨 끝이므로 NULL 값을 가리키도록 대입
+	if (plist->tail == NULL) { // 리스트가 없었을 경우
+		plist->head = plist->tail = temp; // plist의 head와 tail이 가리키는 값을 temp로 변경
+	}
+	else { // 리스트가 있었을 경우
+		plist->tail->link = temp; // 맨 마지막에 있던 값이 가리킬 값을 temp로 변경
+		plist->tail = temp; // plist의 tail이 가리키는 값을 temp로 변경
+	}
+	plist->size++;
+}
+
+void poly_add(ListType* plist1, ListType* plist2, ListType* plist3) // 다항식 덧셈 함수
+{
+	ListNode* a = plist1->head;
+	ListNode* b = plist2->head;
+	int sum;
+
+	while (a && b) {
+		if (a->expon == b->expon) { // a와 b의 계수가 같은 경우
+			sum = a->coef + b->coef; // sum에 a와 b의 합을 대입
+			if (sum != 0) insert_last(plist3, sum, a->expon); // 더한 값이 0이 아니라면 plist3에 값과 차수 삽입
+			a = a->link;
+			b = b->link;
+		}
+		else if (a->expon > b->expon) { // a의 계수가 더 클 경우
+			insert_last(plist3, a->coef, a->expon); // a의 값과 계수를 plist3에 삽입
+			a = a->link;
+		}
+		else { // b의 계수가 더 클 경우
+			insert_last(plist3, b->coef, b->expon); // b의 값과 계수를 plist3에 삽입
+			b = b->link;
+		}
+	}
+	// 남아있는 a 또는 b의 값들을 plist3으로 복사
+	for (; a != NULL; a = a->link) insert_last(plist3, a->coef, a->expon); 
+	for (; b != NULL; b = b->link) insert_last(plist3, b->coef, b->expon);
+}
+
+void poly_print(ListType* plist) // 리스트 출력 함수
+{
+	ListNode* p = plist->head;
+	printf("polynomial = ");
+	for (; p; p = p->link) {
+		printf("%d^%d + ", p->coef, p->expon);
+	}
+	printf("\n");
+}
+
+int main(void)
+{
+	ListType* list1, * list2, * list3;
+
+	// 리스트 생성
+	list1 = create();
+	list2 = create();
+	list3 = create();
+
+	insert_last(list1, 3, 12);
+	insert_last(list1, 2, 8);
+	insert_last(list1, 1, 0);
+
+	insert_last(list2, 8, 12);
+	insert_last(list2, -3, 10);
+	insert_last(list2, 10, 6);
+
+	poly_print(list1);
+	poly_print(list2);
+
+	poly_add(list1, list2, list3);
+	poly_print(list3);
+
+	// 리스트 삭제
+	free(list1);
+	free(list2);
+	free(list3);
+
+	return 0;
+}
