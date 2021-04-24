@@ -1,0 +1,68 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef int element;
+typedef struct {
+	element data;
+	struct ListNode* link;
+}ListNode;
+
+ListNode* insert_first(ListNode* head, int value) // 맨 앞에 연결 리스트를 추가하는 함수
+{
+	ListNode* p = (ListNode*)malloc(sizeof(ListNode)); // 추가할 연결 리스트 p 선언
+	p->data = value; // 추가할 연결 리스트에 값 삽입
+	p->link = head; // 헤드 포인터의 값 복사
+	head = p; // 헤드 포인터 변경
+	return head; // 변경된 헤드 포인터 반환
+}
+
+ListNode* insert(ListNode* head, ListNode* pre, element value) // 연결 리스트를 삽입하는 함수
+{
+	ListNode* p = (ListNode*)malloc(sizeof(ListNode)); // 삽입할 연결 리스트 선언
+	p->data = value; // 삽입할 연결 리스트에 값 넣기
+	p->link = pre->link; // 삽입할 연결 리스트에 pre 리스트가 가리키고 있던 값을 삽입
+	pre->link = p; // pre 리스트가 p 값을 가리키도록 함
+	return head;
+}
+
+ListNode* delete_first(ListNode* head) // 맨 앞의 연결 리스트를 삭제하는 함수
+{
+	ListNode* removed; // 삭제할 리스트를 저장할 리스트 선언
+	if (head == NULL) return NULL;
+	removed = head; // 삭제할 리스트에 head의 값들을 입력
+	head = removed->link; // head의 값에 removed가 가리키는 값(= 삭제할 리스트가 가리키던 값)을 대입
+	// head는 삭제하려고 했던 리스트가 가리키는 값을 가리키게 됨
+	free(removed); // 리스트 삭제
+	return head;
+}
+
+ListNode* delete(ListNode* head, ListNode* pre) // 특정한 연결 리스트를 삭제하는 함수
+{
+	ListNode* removed; // 삭제할 리스트를 저장할 리스트 선언
+	removed = pre->link; // 삭제할 리스트에 pre가 가리키고 있던 값 입력
+	pre->link = removed->link; //pre가 가리키는 값을 삭제할 리스트가 가지고 있던 값으로 변경
+	free(removed); // 리스트 삭제
+	return head;
+}
+
+void print_list(ListNode *head) // 리스트 출력 함수
+{
+	for (ListNode* p = head; p != NULL; p = p->link)
+		printf("%d->", p->data);
+	printf("NULL \n");
+}
+
+int main(void)
+{
+	ListNode* head = NULL;
+
+	for (int i = 0; i < 5; i++) {
+		head = insert_first(head, i);
+		print_list(head);
+	}
+	for (int i = 0; i < 5; i++) {
+		head = delete_first(head);
+		print_list(head);
+	}
+	return 0;
+}
