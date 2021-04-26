@@ -94,8 +94,6 @@ int main(void)
     insert(&list, 0, 20); print_list(&list);    //0번째 위치에 20 추가
     insert(&list, 0, 30); print_list(&list);    //0번째 위치에 30 추가
     
-    insert(&list, 1, 70);print_list(&list); 
-    
     insert_last(&list, 40); print_list(&list);  //맨 끝에 40 추가
    
     delete(&list, 0); print_list(&list);        //0번째 항목 삭제
