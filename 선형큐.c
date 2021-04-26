@@ -81,14 +81,12 @@ int main(void)
 	enqueue(&q, 10); queue_print(&q);
 	enqueue(&q, 20); queue_print(&q);
 	enqueue(&q, 30); queue_print(&q);
-	enqueue(&q, 40); queue_print(&q);
-	enqueue(&q, 50); queue_print(&q);
+
 
 	item = dequeue(&q);queue_print(&q);
 	item = dequeue(&q);queue_print(&q);
 	item = dequeue(&q);queue_print(&q);
-	item = dequeue(&q);queue_print(&q);
-	item = dequeue(&q);queue_print(&q);
+
 	
 	return 0;
 }
