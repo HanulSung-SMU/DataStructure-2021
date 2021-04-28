@@ -91,5 +91,6 @@ int main(void)
     insert(&list, 0, 30);       print_list(&list);
     insert_last(&list, 40);     print_list(&list);
     delete(&list, 0);           print_list(&list);
+    
     return 0;
 }
