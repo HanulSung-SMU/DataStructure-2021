@@ -49,7 +49,7 @@ void print_list(ArrayListType* L)
     printf("\n");
 }
 
-//항목 추가 ㅇ녀산
+//항목 추가 연산
 void insert_last(ArrayListType* L, element item)
 {
     if (L->size >= MAX_LIST_SIZE) {
