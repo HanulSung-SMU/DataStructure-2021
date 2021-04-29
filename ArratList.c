@@ -85,7 +85,6 @@ element delete(ArrayListType* L, int pos) {
 
 int main(void) {
 	ArrayListType list;
-
 	init(&list);
 	insert(&list, 0, 10); print_list(&list);
 	insert(&list, 0, 20); print_list(&list);
