@@ -1,0 +1,85 @@
+#include<string.h>
+#include<stdio.h>
+#include <stdlib.h>
+
+typedef struct ListNode{
+    int data;
+    struct ListNode *link;//다음 노드를 가르키도록
+}ListNode;
+
+void print_list(ListNode *head)
+{
+    ListNode* p;
+    
+    if(head==NULL) return;
+    p=head->link;
+    do{
+        printf("%d->",p->data);
+        p = p->link;
+    }while (p!=head);
+    printf("%d->",p->data);
+
+}
+int traverse(ListNode *head, int item)
+{
+    ListNode* p;
+    if(head==NULL) return 0;
+    do{
+        if (item==p->data){
+            printf("\n %d데이터의 주소값 %d \n",p->data,p);
+            return p;}
+        p = p->link;
+    }while (p!=head);
+    return 0;
+}
+ListNode* insert(ListNode *head, ListNode *pre, int value)//중간에 삽입
+{
+    ListNode *p = (ListNode *)malloc(sizeof(ListNode));
+    p->data = value;
+    p->link = pre->link;//이전의 노드가 가리키던 값을 새로운 p 노드가 가리킨다
+    pre->link = p;//이전에 노드는 p를 가리킨다
+    return head;
+}
+ListNode* insert_first(ListNode *head, int data)
+{
+    ListNode *node = (ListNode *)malloc(sizeof(ListNode)); //새로운 노드를 하나 생성
+    if (head == NULL){
+        head = node;
+        node->link = head;
+    }
+    else{
+        node->link = head->link;
+        head->link = node;
+    }
+    return head; //head 반환
+}
+ListNode* insert_last(ListNode *head, int data)
+{
+    ListNode *node = (ListNode *)malloc(sizeof(ListNode));
+    node->data = data;
+    if (head == NULL){
+        head = node;
+        node->link = head;
+    }
+    else {
+        node->link=head->link;
+        head->link=node;
+        head=node;
+    }
+    return head;
+}
+
+int main(void)
+{
+    ListNode *head = NULL;//데이터 노드 처음 생성 = head, 아직 아무것도 가르키지 않은 상태
+    head = insert_last(head,10);
+    head = insert_last(head,20);
+    head = insert_last(head,30);
+    head = insert_last(head,40);
+    print_list(head);
+    int t = traverse(head,20);
+    insert(head,t,25);
+    print_list(head);
+    return 0;
+    
+}
