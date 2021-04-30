@@ -19,9 +19,13 @@ void insert(ArrayList* list, int pos, int val) {
 		printf("memory is full");
 		exit(1);
 	}
+	else if (pos > list->count) {
+		printf("over count\n");
+	}
 	else {
-		for (int i = list->count; i >= pos; i--)
-			list->data[i + 1] = list->data[i];
+		if (pos != list->count)
+			for (int i = list->count; i >= pos; i--)
+				list->data[i + 1] = list->data[i];
 		list->data[pos] = val;
 		list->count++;
 	}
@@ -31,7 +35,7 @@ void insert_last(ArrayList* list, int val) {
 		printf("memory is full");
 		exit(1);
 	}
-	else 
+	else
 		list->data[list->count++] = val;
 }
 void delete(ArrayList* list, int pos) {
@@ -55,17 +59,17 @@ void print_list(ArrayList* list) {
 			break;
 		printf("-> ");
 	}
-	printf(" count : %d\n", list->count);
+	printf("\n");
 }
 int main(void)
 {
 	ArrayList list;
 	init(&list);
-	insert(&list, 0, 10); print_list(&list); 
-	insert(&list, 0, 30); print_list(&list); 
-	insert(&list, 0, 40); print_list(&list); 
-	insert(&list, 2, 20); print_list(&list);
-	insert_last(&list, 40); print_list(&list); 
-	delete(&list, 3); print_list(&list); 
+	insert(&list, 0, 10); print_list(&list);
+	insert(&list, 0, 20); print_list(&list);
+	insert(&list, 0, 30); print_list(&list);
+	insert(&list, 2, 100); print_list(&list);
+	insert_last(&list, 40); print_list(&list);
+	delete(&list, 3); print_list(&list);
 	return 0;
 }

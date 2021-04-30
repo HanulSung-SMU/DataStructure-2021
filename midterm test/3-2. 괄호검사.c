@@ -55,7 +55,7 @@ int check_matching(char* p) {
 }
 
 int main() {
-	char* p = "{{{[[()]]}}";
+	char* p = "{{[[()]()]}}";
 	if (check_matching(p) == 1)
 		printf("%s 괄호검사성공 \n", p);
 	else

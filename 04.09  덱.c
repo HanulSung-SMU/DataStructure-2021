@@ -88,7 +88,7 @@ void queue_print(queue* q) {
 		printf("memory is empty\n");
 		exit(1);
 	}
-	for (int i = q->head; i != q->tail + 1;) {
+	for (int i = q->head; i != (q->tail + 1) % MAX;) {
 		printf("%d ", q->data[i]);
 		i = (i + 1) % MAX;
 	}

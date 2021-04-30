@@ -11,7 +11,7 @@ int** make_array(int x, int y) {
 void print_array(int** p, int x, int y) {
 	for (int i = 0; i < x; i++) {
 		for (int j = 0; j < y; j++)
-			printf("%d ", p[i][j]);
+			printf("%3d ", p[i][j]);
 		printf("\n");
 	}
 }

@@ -41,13 +41,13 @@ void print_poly(polynomial p)
 }
 int main(void)
 {
-	polynomial a = { 3,{1, 1, 2, 3, 10 } };
-	polynomial b = { 5,{ 4, 7, 1, 5, 1, -9 } };
+	polynomial a = { 6,{ 1, 2, 3, 4, 0, 0, 100} };
+	polynomial b = { 5,{ 1, 2, 3, 4 } };
 	polynomial c;
 	print_poly(a);
 	print_poly(b);
 	c = add(a, b);
-	printf("-------------------------------------------------------------------------------------\n");
+	printf("--------------------------------------------------------------------------------------------------------\n");
 	print_poly(c);
-	return 0;;
+	return 0;
 }
