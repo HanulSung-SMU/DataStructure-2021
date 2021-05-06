@@ -3,17 +3,17 @@
 
 typedef int element;
 typedef struct ListNode {
-	element data;
-	struct ListNode* link;
+	element data;				// data field
+	struct ListNode* link;		// link field
 }ListNode;
 
 
 ListNode* insert_first(ListNode* head, element data) {
 	ListNode* node = (ListNode*)malloc(sizeof(ListNode));
-	node->data = data;
+	node->data = data;		// insert new data in node's data field
 	if (head == NULL) {
 		head = node;
-		node->link = head;
+		node->link = head;	// change head node to new node(cuz. insert_first)
 	}
 	else {
 		node->link = head->link;
@@ -21,6 +21,7 @@ ListNode* insert_first(ListNode* head, element data) {
 	}
 	return head;
 }
+
 
 ListNode* insert_last(ListNode* head, element data) {
 	ListNode* node = (ListNode*)malloc(sizeof(ListNode));
