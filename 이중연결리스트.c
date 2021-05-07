@@ -45,12 +45,12 @@ int main(void)
 {
     DListNode* head = (DListNode*)malloc(sizeof(DListNode));
     init(head);
-    printf("Ãß°¡ ´Ü°è\n");
+    printf("ì¶”ê°€ ë‹¨ê³„\n");
     for (int i = 0; i < 5; i++) {
         insert(head, i);
         print_list(head);
     }
-    printf("»èÁ¦ ´Ü°è\n");
+    printf("ì‚­ì œ ë‹¨ê³„\n");
     for (int i = 0; i < 5; i++) {
         print_list(head);
         delete(head, head->rlink);
