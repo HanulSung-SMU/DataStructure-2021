@@ -7,7 +7,6 @@ typedef struct TreeNode {
     struct TreeNode *left, *right;
 } TreeNode;
 
-int a = 10; int b = 20; int c = 30; int d = 40;
 TreeNode n1 = {10, NULL, NULL};
 TreeNode n2 = {20, NULL, NULL};
 TreeNode n3 = {'*', &n1, &n2};
@@ -53,16 +52,16 @@ int evaluate(TreeNode *root) {
             case '>':
                 return (((nn1) > (nn2)) ? (nn1) : 0);
             case '|':
-                return nn1 && nn2;
+                return nn1 || nn2;
         }
     }
     return 0;
 }
 
 int main(void) {
-    printf("수식의 값은 %d입니다. \n", evaluate(re1));
-    printf("수식의 값은 %d입니다. \n", evaluate(re2));
-    printf("수식의 값은 %d입니다. \n", evaluate(re3));
+    printf("1번 수식의 값은 %d입니다. \n\n", evaluate(re1));
+    printf("2번 수식의 값은 %d입니다. \n\n", evaluate(re2));
+    printf("3번 수식의 값은 %d입니다. \n", evaluate(re3));
     return 0;
 }
 
