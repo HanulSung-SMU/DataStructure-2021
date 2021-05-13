@@ -1,0 +1,166 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <memory.h>
+#include <string.h> 
+
+
+//전위 순회 연산 구조체 
+typedef struct TreeNode {
+	int data;
+	struct TreeNode *left, *right;
+} TreeNode;
+
+//     + 
+// *     + // 
+//10 20   30 40 //
+TreeNode n1 = { 10, NULL, NULL };
+TreeNode n2 = { 20, NULL, NULL };
+TreeNode n3 = { '*', &n1, &n2 };
+TreeNode n4 = { 30, NULL, NULL };
+TreeNode n5 = { 40, NULL, NULL };
+TreeNode n6 = { '+', &n4, &n5 };
+TreeNode n7 = { '+', &n3, &n6 };
+TreeNode *root = &n7;
+
+//전위 순회 출력
+void preorder(TreeNode *root) {
+	if (root != NULL) {
+		if (root->data == '+')
+			printf("[+] ");
+		else if (root->data == '*')
+			printf("[*] ");
+		else if (root->data == '/')
+			printf("[/] ");
+		else if (root->data == '-')
+			printf("[-] ");
+		else
+			printf("[%d] ", root->data); // 노드 방문 
+		preorder(root->left); // 왼쪽서브트리 순회
+		preorder(root->right); // 오른쪽서브트리 순회
+	}
+}
+// 후위 순회 출력
+void postorder(TreeNode *root) {
+	if (root != NULL) {
+		postorder(root->left); // 왼쪽서브트리 순회 
+		postorder(root->right); // 오른쪽서브트리순회 
+		if (root->data == '+')
+			printf("[+]");
+		else if (root->data == '*')
+			printf("[*]");
+		else if (root->data == '/')
+			printf("[/]");
+		else if (root->data == '-')
+			printf("[-]");
+		else
+			printf("[%d] ", root->data); // 노드 방문 
+	}
+}
+//중위 순회 출력
+void inorder(TreeNode *root) {
+	if (root != NULL) {
+		inorder(root->left); // 왼쪽서브트리 순회
+
+		if (root->data == '+')
+			printf("[+] ");
+		else if (root->data == '*')
+			printf("[*] ");
+		else if (root->data == '/')
+			printf("[/] ");
+		else if (root->data == '-')
+			printf("[-] ");
+		else
+			printf("[%d] ", root->data); // 노드 방문 
+
+		inorder(root->right); // 오른쪽서브트리 순회
+	}
+}
+//수식 계산 (중위 순회)
+int inevaluate(TreeNode *root)
+{
+	if (root == NULL)
+		return 0;
+	if (root->left == NULL && root->right == NULL)
+		return root->data;
+	else {
+		int op1 = inevaluate(root->left);
+		int op2 = inevaluate(root->right);
+		printf("%d %c %d 를 계산합니다.\n", op1, root->data, op2);
+		switch (root->data) {
+		case '+':
+			return op1 + op2;
+		case '-':
+			return op1 - op2;
+		case '*':
+			return op1 * op2;
+		case '/':
+			return op1 / op2;
+		}
+	}
+	return 0;
+}
+
+//수식 계산 (전위 순회)
+int preevaluate(TreeNode *root)
+{
+	if (root == NULL)
+		return 0;
+	if (root->left == NULL && root->right == NULL)
+		return root->data;
+	else {
+		printf("%c", root->data);
+		int op1 = preevaluate(root->left);
+		if (op1 > 0)
+			printf("%d", op1);
+		int op2 = preevaluate(root->right);
+		if(op2 > 0)
+			printf("%d",op2);
+	}
+	return 0;
+}
+
+//수식 계산 (후위 순회)
+int postevaluate(TreeNode *root)
+{
+	if (root == NULL)
+		return 0;
+	if (root->left == NULL && root->right == NULL)
+		return root->data;
+	else {
+		int op1 = postevaluate(root->left);
+		if (op1 > 0)
+			printf("%d", op1);
+		int op2 = postevaluate(root->right);
+		if (op2 > 0)
+			printf("%d", op2);
+		printf("%c", root->data);
+	}
+	return 0;
+}
+
+
+
+int main(void) {
+
+	printf("\n전위순회=");
+	preorder(root);
+	printf("\n");
+	preevaluate(root);
+	printf("\n계산할 수 없습니다.");
+
+	printf("\n\n중위순회=");
+	inorder(root);
+	printf("\n");
+	printf("중위수식의 값은 %d 입니다.", inevaluate(root));
+
+	printf("\n\n후위순회=");
+	postorder(root);
+	printf("\n");
+	postevaluate(root);
+	printf("\n계산할 수 없습니다.");
+
+
+	printf("\n");
+	return 0;
+}
