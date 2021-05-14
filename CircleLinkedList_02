@@ -1,0 +1,64 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef int element;
+typedef struct DlistNode {
+	element data;
+	struct DlistNode* llink;
+	struct DlistNode* rlink;
+}DlistNode;
+
+void init(DlistNode* phead) // 리스트 초기화 함수
+{
+	phead->llink = phead; 
+	phead->rlink = phead; // 자기 자신을 가리키도록 함
+}
+
+void dinsert(DlistNode* before, element data) // 리스트 추가 함수
+{
+	DlistNode* newnode = (DlistNode*)malloc(sizeof(DlistNode)); // 추가할 리스트 공간 할당
+	newnode->data = data;
+	newnode->llink = before;
+	newnode->rlink = before->rlink;
+	// 새로 들어갈 리스트가 기존의 리스트를 가리키도록 변경
+	before->rlink->llink = newnode;
+	before->rlink = newnode;
+	// 기존의 리스트가 새로 들어온 리스트를 가리키도록 변경
+}
+
+void ddelete(DlistNode* head, DlistNode* removed) // 리스트 삭제 함수
+{ 
+	if (removed == head) return; // 리스트가 한 개일 경우
+	removed->llink->rlink = removed->rlink;
+	removed->rlink->llink = removed->llink;
+	free(removed);
+	// 삭제하지 않는 리스트가 가리키는 값만 변경해주면 됨
+}
+
+void print_dlist(DlistNode* head) // 리스트 출력 함수
+{
+	DlistNode* p;
+	for (p = head->rlink; p != head; p = p->rlink) {
+		printf("<-| %d |-> ", p->data);
+	}
+	printf("\n");
+}
+
+int main(void)
+{
+	DlistNode* head = (DlistNode*)malloc(sizeof(DlistNode));
+	init(head);
+	printf("추가 단계\n");
+	for (int i = 0; i < 5; i++) {
+		dinsert(head, i);
+		print_dlist(head);
+	}
+	printf("삭제 단계\n");
+	for (int i = 0; i < 5; i++) {
+		print_dlist(head);
+		ddelete(head, head->rlink);
+	}
+	free(head);
+
+	return 0;
+}
