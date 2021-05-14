@@ -1,0 +1,90 @@
+#include <stdio.h>
+
+typedef struct TreeNode {
+	int data;
+	struct TreeNode* left, * right;
+}TreeNode;
+
+TreeNode n1 = { 10, NULL, NULL };
+TreeNode n2 = { 20, NULL, NULL };
+TreeNode n3 = { '*', &n1, &n2 };
+TreeNode n4 = { 30, NULL, NULL };
+TreeNode n5 = { 40, NULL, NULL };
+TreeNode n6 = { '+', &n4, &n5 };
+TreeNode n7 = { '+', &n3, &n6 };
+TreeNode* root = &n7;
+
+void inorder(TreeNode* root)
+{
+	if (root) {
+		inorder(root->left);
+		printf("%d ", root->data);
+		inorder(root->right);
+	}
+}
+
+void preorder(TreeNode* root)
+{
+	if (root) {
+		printf("%d ", root->data);
+		preorder(root->left);
+		preorder(root->right);
+	}
+}
+
+void postorder(TreeNode* root)
+{
+	if (root) {
+		postorder(root->left);
+		postorder(root->right);
+		printf("%d ", root->data);
+	}
+}
+
+int Cal(TreeNode* root)
+{
+	int n1, n2;
+	int result = 0;
+	
+	if (root->left == NULL && root->right == NULL) return root->data;
+	n1 = Cal(root->left);
+	n2=  Cal(root->right);
+
+	switch (root->data) {
+	case '+':
+		result = n1 + n2;
+		return result;
+	case '-':
+		result = n1 - n2;
+		return result;
+	case '*':
+		result = n1 * n2;
+		return result;
+	case '/':
+		result = n1 / n2;
+		return result;
+	}
+
+	return 0;
+}
+
+int main(void)
+{
+	printf("중위 순회 = ");
+	inorder(root);
+	printf("\n");
+
+	printf("전위 순회 = ");
+	preorder(root);
+	printf("\n");
+
+	printf("후위 순회 = ");
+	postorder(root);
+	printf("\n");
+
+	printf("수식 계산 = ");
+	printf("%d", Cal(root));
+	printf("\n");
+
+	return 0;
+}
