@@ -1,0 +1,65 @@
+#include <stdio.h>
+#include <memory.h>
+
+  
+
+typedef struct TreeNode {
+    char data;
+    struct TreeNode *left, *right;
+} TreeNode;
+
+TreeNode n1={'<', &n3, &n4};
+TreeNode n2={'<', &n5, &n6};
+TreeNode n3={'a', NULL, NULL};
+TreeNode n4={'b', NULL, NULL};
+TreeNode n5={'c', NULL, NULL};
+TreeNode n6={'d', NULL, NULL};
+TreeNode n7={'R', &n1, &n2};
+TreeNode *root = &n7;
+
+int inorder(TreeNode *root){
+    if (root){
+        inorder(root->left);
+        printf("%c",root->data);
+        inorder(root->right);
+        
+    }
+}
+
+int preorder(TreeNode *root){
+    if(root){
+        printf("%c",root->data);
+        
+        preorder(root->left);
+        preorder(root->right);
+        
+    }
+}
+
+int postorder(TreeNode *root){
+    if(root){
+        postorder(root->left);
+        postorder(root->right);
+        printf("%c",root->data);
+        
+    }
+}
+
+int main(void)
+{
+    
+    printf("중위 순회=");
+    inorder(root);
+    printf("\n");
+    
+    printf("전위 순휘=");
+    preorder(root);
+    printf("\n");
+    
+    printf("후위 순회=");
+    postorder(root);
+    printf("\n");
+    
+    
+    return 0;
+}
