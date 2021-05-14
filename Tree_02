@@ -1,0 +1,91 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct TreeNode {
+	int key;
+	struct TreeNode* left, * right;
+}TreeNode;
+
+TreeNode n1 = { 7, NULL, NULL };
+TreeNode n2 = { 12, NULL, NULL };
+TreeNode n3 = { 3, NULL, NULL };
+TreeNode n4 = { 26, NULL, NULL };
+TreeNode n5 = { 27, NULL, NULL };
+TreeNode n6 = { 31, NULL, NULL };
+TreeNode n7 = { 18, NULL, NULL };
+
+void inorder(TreeNode* root)
+{
+	if (root) {
+		inorder(root->left);
+		printf("%d ", root->key);
+		inorder(root->right);
+	}
+}
+
+void preorder(TreeNode* root)
+{
+	if (root) {
+		printf("%d ", root->key);
+		preorder(root->left);
+		preorder(root->right);
+	}
+}
+
+void postorder(TreeNode* root)
+{
+	if (root) {
+		postorder(root->left);
+		postorder(root->right);
+		printf("%d ", root->key);
+	}
+}
+
+TreeNode* new_node(int item)
+{
+	TreeNode* temp = (TreeNode*)malloc(sizeof(TreeNode));
+	temp->key = item;
+	temp->left = temp->right = NULL;
+	return temp;
+}
+
+TreeNode* search(TreeNode* node, int key)
+{
+	if (node == NULL)
+		return NULL;
+	if (key == node->key)
+		return node;
+	else if (key < node->key)
+		return search(node->left, key);
+	else if (key > node->key)
+		return search(node->right, key);
+
+	return NULL;
+}
+
+TreeNode* insert(TreeNode* node, int key)
+{
+	if (node == NULL) return new_node(key);
+
+	if (key > node->key) node->right = insert(node->right, key);
+	else if (key < node->key) node->left = insert(node->left, key);
+
+	return node;
+}
+
+int main(void)
+{
+	TreeNode* root = NULL;
+	root = insert(root, 7);
+	root = insert(root, 12);
+	root = insert(root, 3);
+	root = insert(root, 26);
+	root = insert(root, 27);
+	root = insert(root, 31);
+	root = insert(root, 18);
+
+	inorder(root);
+	printf("\n");
+
+	return 0;
+}
