@@ -1,0 +1,144 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct TreeNode
+{
+	int key;
+	struct NodeStruct *left, *right;
+	}TreeNode;
+TreeNode n1 = { 10, NULL, NULL };
+TreeNode n2 = { 9, NULL, &n1};
+TreeNode n3 = { 19, NULL, NULL };
+TreeNode n4 = { 44, NULL, NULL };
+TreeNode n5 = { 32, NULL, &n4 };
+TreeNode n6 = { 18, &n2, &n3 };
+TreeNode n7 = { 27, &n6, &n5 };
+TreeNode* root = &n7;
+
+//         27
+//      18   32
+//    9  19   44
+//     10
+
+TreeNode* search(TreeNode* node, int key)
+{
+	if (node == NULL)
+		return NULL;
+
+	if (node->key == key)
+		return node;
+	else if (node->key > key)
+		return search(node->left, key);
+	else
+		return search(node->right, key);
+}
+
+TreeNode* new_node(int item)
+{
+    TreeNode* temp = (TreeNode*)malloc(sizeof(TreeNode));
+    temp->key =item;
+    temp->left=temp->right=NULL;
+	return temp;
+}
+
+TreeNode* insert_node(TreeNode* node, int key)
+{
+	if (node == NULL)//트리가 공백이면 새로운 노드 반환
+		return new_node(key);
+	
+	if (node->key > key)
+			node->left = insert_node(node->left, key);
+	else if (node->key < key)
+			node->right = insert_node(node->right, key);
+	return node;//변경된 루트 포인터 반환
+}
+
+TreeNode* min_value_node(TreeNode* node)
+{
+    TreeNode* current = node;
+    //맨 왼쪽
+    while (current->left != NULL)
+        current = current->left;
+        
+    return current;
+}
+
+//키 주면 키가 저장된 노드 삭제, 새로운 루트 노드 반환
+TreeNode* delete_node(TreeNode* root, int key)
+{
+	
+	if (root == NULL)
+		return root;
+
+	if (root->key > key) //키가 루트보다 작으면 왼쪽에 있다
+		root->left = delete_node(root->left, key);
+	else if (root->key < key)
+		root->right = delete_node(root->right, key);
+    //키가 루트와 같으면 이 노드를 삭제
+    
+	else
+	{
+	    //삭제하려는 노드가 단말 노드인 경우, 
+	    //삭제하려는 노드가 하나의 서브트리만 가지고 있는 경우
+	    if (root->left=NULL){ //왼쪽이 비어있으면, 오른쪽 값이 위로 올라감
+	        TreeNode* temp = root->right;
+	        //free(root);
+	        return temp;
+	    }
+	    else if (root->right == NULL){ //오른쪽이 비어있으면, 왼쪽 값이 위로 올라감
+	        TreeNode* temp = root->left;
+	        //free(root);
+	        return temp;
+	    }
+		else { //삭제하려는 노드가 두개의 서브트리르 가지고 있는 경우
+			TreeNode* temp = min_value_node(root->right);
+			root->key = temp->key;
+			root->right = delete_node(root->right, temp->key);
+		}
+	}
+	return root;
+}
+//중위 순회
+void inorder(TreeNode *root) {
+	if (root != NULL) {
+		inorder(root->left); // 왼쪽서브트리 순회
+        printf("[%d] ", root->key); // 노드 방문
+		inorder(root->right); // 오른쪽서브트리 순회
+	}
+}
+int main()
+{
+   
+	printf("이진탐색트리 중위 순회 결과 : ");
+	inorder(root);
+	printf("\n");
+
+    insert_node(root, 28);
+	printf("28 추가한 결과 : ");
+	inorder(root);
+	printf("\n");
+	
+    delete_node(root, 18);
+	printf("18 삭제한 결과 : ");
+	inorder(root);
+	printf("\n");
+
+	return 0;
+/*
+- 기본
+         27
+      18   32
+    9  19   44
+    10
+- 28 추가한 결과 
+        28 
+     27    32 
+   18       44 
+ 9   19
+  10
+//18 삭제한 결과 18이 19로 대체됨
+      28 
+  27    32 
+19        44 
+*/
+}
