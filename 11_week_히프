@@ -1,0 +1,105 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define MAX_ELEMENT 200
+
+typedef struct
+{
+	int key;
+}element;
+
+typedef struct
+{
+	element heap[MAX_ELEMENT];
+	int heap_size;
+}HeapType;
+
+HeapType* create()
+{
+	return (HeapType*)malloc(sizeof(HeapType));
+}
+
+//초기화
+void init(HeapType* h)
+{
+	h->heap_size = 0;
+}
+
+//삽입, 마지막 위치에 먼저 삽입하고 교환하면서 위치 변경
+void insert_max_heap(HeapType* h, element item)
+{
+	int i;
+	i = ++(h->heap_size); //히프 크기 하나 증가 
+    //                           부모노드 : (자식노드/2)
+	while ((i != 1) && (item.key > h->heap[i / 2].key)) // 삽입된 값이 부모노드보다 크면
+	{
+		h->heap[i] = h->heap[i / 2]; //부모 노드로 올라감
+		i = i / 2; //i번째와 부모노드 교환
+	}
+
+	h->heap[i] = item; // 새로운 노드 삽입
+}
+
+//삭제 : 가장 말단 값을 맨위로 올린다음 강등시킴
+element delete_max_heap(HeapType* h)
+{
+	int parent, child;
+	element item, temp;
+    
+
+	item = h->heap[1]; 
+	temp = h->heap[(h->heap_size)--]; // 말단에 있는 값을 temp로 옮기고 히프 크기 감소
+	parent = 1; // 맨 첫 실행의 부모노드를 루트로 둔다.
+	child = 2; // 그리고 그 왼쪽 자식을 자식노드로 둔다.
+
+
+
+    // child가 힙 사이즈보다 크면 힙을 벗어난 비교이므로 실행이 안된다.
+    // 따라서 child가 힙 사이즈보다 작거나 같을 때 비교가 일어난다.
+	while (child <= h->heap_size)
+	{	
+		// 현재 노드의 자식노드 중 더 큰 자식노드를 찾는다
+		//루트의 왼쪽 자식부터 비교 시작
+		if ((child < h->heap_size) && ((h->heap[child].key) < (h->heap[child + 1].key)))
+			child++;
+
+		// 비교 대상인 child를 설정 후 
+		if (temp.key >= h->heap[child].key)
+			break;//위치 이동을 할 필요 없다
+	
+		
+		h->heap[parent] = h->heap[child]; 
+		// 한 단계 아래로 이동
+		parent = child; //다음 비교를 위해 자녀가 부모가 됨
+		child *= 2; //다음 자녀로
+	}
+	h->heap[parent] = temp;
+	return item;
+}
+
+int main(void)
+{
+	element e1 = { 10 };
+	element e2 = { 5 };
+	element e3 = { 30 };
+	element e4, e5, e6;
+	HeapType* heap;
+
+	heap = create(); 
+	init(heap); 
+
+
+	insert_max_heap(heap, e1); // 10
+	insert_max_heap(heap, e2); // 5
+	insert_max_heap(heap, e3); // 30
+
+	// 삭제
+	e4 = delete_max_heap(heap);
+	printf("< %d > ", e4.key);
+	e5 = delete_max_heap(heap);
+	printf("< %d > ", e5.key);
+	e6 = delete_max_heap(heap);
+	printf("< %d > ", e6.key);
+
+	free(heap);
+	return 0;
+}
