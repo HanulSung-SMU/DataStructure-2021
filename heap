@@ -1,0 +1,82 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct {
+	int key;
+}element;
+
+typedef struct {
+	element heap[200];
+	int heap_size;
+}HeapType;
+
+HeapType* create()
+{
+	return (HeapType*)malloc(sizeof(HeapType));
+}
+
+void init(HeapType* heap)
+{
+	heap->heap_size = 0;
+}
+
+void insert_heap(HeapType* heap, element item)
+{
+	int i;
+	i = ++(heap->heap_size);
+
+	while ((i != 1)&&(item.key > heap->heap[i/2].key)) {
+		heap->heap[i] = heap->heap[i / 2];
+		i /= 2;
+	}
+	heap->heap[i] = item;
+}
+
+element delete_heap(HeapType* heap)
+{
+	int parent, child;
+	element item, temp;
+
+	item = heap->heap[1];
+	temp = heap->heap[(heap->heap_size)--];
+	parent = 1;
+	child = 2;
+	while (child <= heap->heap_size) {
+		if ((child < heap->heap_size) && (heap->heap[child].key < heap->heap[child + 1].key))
+			child++;
+		if (temp.key >= heap->heap[child].key)
+			break;
+		heap->heap[parent] = heap->heap[child];
+		parent = child;
+		child *= 2;
+	}
+	heap->heap[parent] = temp;
+	return item;
+}
+
+int main(void)
+{
+	element e1 = { 7 }, e2 = { 3 }, e3 = { 30 }, e4 = { 25 };
+	element e5, e6, e7, e8;
+	HeapType* heap;
+
+	heap = create();
+	init(heap);
+
+	insert_heap(heap, e1);
+	insert_heap(heap, e2);
+	insert_heap(heap, e3);
+	insert_heap(heap, e4);
+
+	e5 = delete_heap(heap);
+	printf("%d ", e5.key);
+	e6 = delete_heap(heap);
+	printf("%d ", e6.key);
+	e7 = delete_heap(heap);
+	printf("%d ", e7.key);
+	e8 = delete_heap(heap);
+	printf("%d \n", e8.key);
+
+	free(heap);
+	return 0;
+}
