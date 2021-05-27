@@ -24,7 +24,7 @@ int main(void)
     srand(time(NULL));
     for(i=0 ; i<n; i++) {
         list[i] = rand() % 100;
-        for(j=0 ; j<i-1 ; j++){
+        for(j=0 ; j<i ; j++){
             if(list[j] == list[i])
                 i--;
         }

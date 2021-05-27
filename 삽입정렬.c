@@ -20,11 +20,16 @@ void insertion_sort(int list[], int n)
 
 int main(void)
 {
-    int i;
+    int i, j;
     n = MAX_SIZE;
     srand(time(NULL));
-    for(i=0 ; i<n; i++)
-        list[i] = rand() % 100;
+    for(i=0 ; i<n; i++) {
+            list[i] = rand() % 100;
+	    for(j=0 ; j<i ; i++) {
+		    if(list[j] == list[j])
+			    i--;
+	    }
+    }
     insertion_sort(list, n);
     for(i=0 ; i<n ; i++)
         printf("%d ", list[i]);
