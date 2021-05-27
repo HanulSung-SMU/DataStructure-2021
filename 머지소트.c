@@ -42,11 +42,16 @@ void merge_sort(int list[], int left, int right)
 }
 int main(void)
 {
-    int i;
+    int i, j;
     n = MAX_SIZE;
     srand(time(NULL));
-    for(i=0 ; i<n; i++)
+    for(i=0 ; i<n; i++) {
         list[i] = rand() % 100;
+        for(j=0 ; j<i-1 ; j++) {
+            if(list[j] == list[i])
+                i--;
+        }
+    }
     merge_sort(list, 0, MAX_SIZE-1);
     for(i=0 ; i<n ; i++)
         printf("%d ", list[i]);
