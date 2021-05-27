@@ -25,14 +25,14 @@ int main(void)
 	for (i = 0; i<n; i++)      	
 		list[i] = rand() % 100; 
 		
-	printf("»ðÀÔ Á¤·Ä Àü: "); 
+	printf("ì‚½ìž… ì •ë ¬ : "); 
 	for (i = 0; i<n; i++)
 		printf("%d ", list[i]);
 	printf("\n");
 	
 	insertion_sort(list, n); 
 	
-	printf("»ðÀÔ Á¤·Ä ÈÄ: ");
+	printf("ì‚½ìž… ì •ë ¬ ì „: ");
 	for (i = 0; i<n; i++)
 		printf("%d ", list[i]);
 	printf("\n");
