@@ -19,11 +19,16 @@ void bubble_sort(int list[], int n)
 
 int main(void)
 {
-    int i;
+    int i, j;
     n = MAX_SIZE;
     srand(time(NULL));
-    for(i=0 ; i<n; i++)
+    for(i=0 ; i<n; i++) {
         list[i] = rand() % 100;
+        for(j=0 ; j<i-1 ; j++){
+            if(list[j] == list[i])
+                i--;
+        }
+    }
     bubble_sort(list, n);
     for(i=0 ; i<n ; i++)
         printf("%d ", list[i]);
