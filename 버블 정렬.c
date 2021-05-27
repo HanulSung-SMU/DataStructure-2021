@@ -24,14 +24,14 @@ int main(void)
 	for (i = 0; i<n; i++)      	
 		list[i] = rand() % 100; 
 		
-	printf("¹öºí Á¤·Ä Àü: "); 
+	printf("ë²„ë¸” ì •ë ¬ : "); 
 	for (i = 0; i<n; i++)
 		printf("%d ", list[i]);
 	printf("\n");
 	
 	bubble_sort(list, n); 
 	
-	printf("¹öºí Á¤·Ä ÈÄ: ");
+	printf("ë²„ë¸” ì •ë ¬ ì „: ");
 	for (i = 0; i<n; i++)
 		printf("%d ", list[i]);
 	printf("\n");
