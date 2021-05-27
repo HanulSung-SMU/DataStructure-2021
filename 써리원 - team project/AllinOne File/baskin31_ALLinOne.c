@@ -345,7 +345,7 @@ void printBvInfo(BeverageNode* head) {
 
 	BeverageNode* curr = head;
 	printf(" 번호           이름            제공량   kcal      가격  선호도\n");
-	printf("%d번 %s %dg %dkcal %d원 %d회\n", curr->bv_num, curr->bvtype, curr->bvserving, curr->kcal, curr->bvprice, curr->prefer);
+	printf("%3d번 %25s %4dg %5dkcal %6d원 %3d번\n", curr->bv_num, curr->bvtype, curr->bvserving, curr->kcal, curr->bvprice, curr->prefer);
 	printf("\n");
 }
 
@@ -367,12 +367,13 @@ IcecreamNode* search_ic_with_name(IcecreamNode* phead) {
 
 	// 아이스크림 이름으로 검색
 	// return : 발견 = 해당 아이스크림 노드
-
 	IcecreamNode* p = phead;
 	char n[MAX];
 
 	do
 	{
+		IcecreamNode* p = phead;
+
 		printf("** 검색할 아이스크림의 이름을 입력해주세요 **\n");
 		scanf_s("%s", n, sizeof(n));
 
@@ -387,7 +388,7 @@ IcecreamNode* search_ic_with_name(IcecreamNode* phead) {
 			printf("\n검색한 아이스크림 정보가 존재하지 않습니다\n\n");
 			continue;
 		}
-	} while (p == NULL);
+	} while (strcmp(p->name, n) != 0 || p == NULL);
 
 	return p; // 검색할 아이스크림의 이름을 가진 노드 주소값 반환
 }
@@ -416,6 +417,8 @@ BeverageNode* search_bv_with_name(BeverageNode* phead) {
 
 	do
 	{
+		BeverageNode* p = phead;
+
 		printf("** 검색할 음료의 이름을 입력해주세요 **\n");
 		scanf_s("%s", n, sizeof(n));
 
@@ -430,7 +433,7 @@ BeverageNode* search_bv_with_name(BeverageNode* phead) {
 			printf("\n검색한 음료 정보가 존재하지 않습니다\n\n");
 			continue;
 		}
-	} while (p == NULL);
+	} while (p == NULL || (strcmp(p->bvtype, n) != 0));
 
 	return p; // 검색할 음료의 이름을 가진 노드 주소값 반환
 }
@@ -701,7 +704,7 @@ void IcecreamType(Order** porder, IcecreamNode* Icecream_info) {
 		printf("***********************\n");
 		scanf_s("%d", &type);
 		if (type < 1 || type>2) {
-			printf("1~4번 항목사이에서 골라주세요.\n");
+			printf("1~2번 항목사이에서 골라주세요.\n");
 			continue;
 		}
 		break;
@@ -873,7 +876,6 @@ void select_beverage(Order** porder, BeverageNode* beverage_info) {
 		}
 		break;
 	}
-	printf("name : %s\n", name);
 	strcpy(node->menu_name, name);
 	store(porder, node);
 }
@@ -969,6 +971,7 @@ int main(void)
 	int input;
 
 	InfoHead* info_head = loadTxt();
+	//print_hp(info_head->handpack_link);
 	printf("===========================================\n");
 	printf("** ^^어서오세요 배스킨라빈스 31입니다^^ **\n");
 	printf("===========================================\n");
