@@ -1,0 +1,200 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+int sorted_list[100];
+
+void selection_sort(int list[], int n)
+{
+	int i, j, least, tmp;
+	for (i = 0; i < n - 1; i++) {
+		least = i;
+		for (j = i + 1; j < n; j++) {
+			if (list[j] < list[least]) least = j;
+		}
+		tmp = list[i];
+		list[i] = list[least];
+		list[least] = tmp;
+	}
+}
+
+void insertion_sort(int list[], int n)
+{
+	int i, j, key;
+	for (i = 1; i < n; i++) {
+		key = list[i]; //키 값에 i번째 항 대입
+		for (j = i - 1; j >= 0 && list[j] > key; j--) {
+			list[j + 1] = list[j]; // 키 값이 list의 값보다 작다면 리스트의 값을 한 칸 뒤로
+		}
+		list[j + 1] = key; // 빈 공간에 키 값 대입
+	}
+}
+
+void bubble_sort(int list[], int n)
+{
+	int i, j, tmp;
+	for (i = n - 1; i > 0; i--) {
+		for (j = 0; j < i; j++) {
+			if (list[j] > list[j + 1]) {
+				tmp = list[j + 1];
+				list[j + 1] = list[j];
+				list[j] = tmp;
+			}
+		}
+	}
+}
+
+void merge(int list[], int left, int mid, int right)
+{
+	int i, j, k, l;
+	i = left;
+	j = mid + 1;
+	k = left;
+	while (i <= mid && j <= right) {
+		if (list[i] <= list[j]) sorted_list[k++] = list[i++];
+		else sorted_list[k++] = list[j++];
+	}
+	if (i > mid) {
+		for (l = j; l <= right; l++) {
+			sorted_list[k++] = list[l];
+		}
+	}
+	else {
+		for (l = i; l <= mid; l++) {
+			sorted_list[k++] = list[l];
+		}
+	}
+	for (l = left; l <= right; l++) {
+		list[l] = sorted_list[l];
+	}
+}
+
+void merge_sort(int list[], int left, int right)
+{
+	int mid;
+	if (left < right) {
+		mid = (left + right) / 2;
+		merge_sort(list, left, mid);
+		merge_sort(list, mid + 1, right);
+		merge(list, left, mid, right);
+	}
+}
+
+int main(void)
+{
+	int i = 0;
+	int j = 0;
+	int x, y, tmp;
+	int n = 100;
+	int list[100];
+	srand(time(NULL));
+
+	for (i = 0; i < n; i++) { // Selection Sort
+		list[i] = i;
+	}
+	for (i = 0; i < 250; i++) {
+		x = rand() % n;
+		y = rand() % n;
+
+		if (x != y) {
+			tmp = list[x];
+			list[x] = list[y];
+			list[y] = tmp;
+		}
+	}
+
+	printf("Selection Sort(전) : ");
+	for (i = 0; i < n; i++) {
+		printf("%d ", list[i]);
+	}
+	printf("\n\n");
+
+	selection_sort(list, n);
+	printf("Selection Sort(후) : ");
+	for (i = 0; i < n; i++) {
+		printf("%d ", list[i]);
+	}
+	printf("\n\n");
+
+	for (i = 0; i < n; i++) { // Insertion Sort
+		list[i] = i;
+	}
+	for (i = 0; i < 250; i++) {
+		x = rand() % n;
+		y = rand() % n;
+
+		if (x != y) {
+			tmp = list[x];
+			list[x] = list[y];
+			list[y] = tmp;
+		}
+	}
+
+	printf("Insertion Sort(전) : ");
+	for (i = 0; i < n; i++) {
+		printf("%d ", list[i]);
+	}
+	printf("\n\n");
+
+	insertion_sort(list, n);
+	printf("Insertion Sort(후) : ");
+	for (i = 0; i < n; i++) {
+		printf("%d ", list[i]);
+	}
+	printf("\n\n");
+
+	for (i = 0; i < n; i++) { // Bubble Sort
+		list[i] = i;
+	}
+	for (i = 0; i < 250; i++) {
+		x = rand() % n;
+		y = rand() % n;
+
+		if (x != y) {
+			tmp = list[x];
+			list[x] = list[y];
+			list[y] = tmp;
+		}
+	}
+
+	printf("Bubble Sort(전) : ");
+	for (i = 0; i < n; i++) {
+		printf("%d ", list[i]);
+	}
+	printf("\n\n");
+
+	bubble_sort(list, n);
+	printf("Bubble Sort(후) : ");
+	for (i = 0; i < n; i++) {
+		printf("%d ", list[i]);
+	}
+	printf("\n\n");
+
+	for (i = 0; i < n; i++) { // Merge Sort
+		list[i] = i;
+	}
+	for (i = 0; i < 250; i++) {
+		x = rand() % n;
+		y = rand() % n;
+
+		if (x != y) {
+			tmp = list[x];
+			list[x] = list[y];
+			list[y] = tmp;
+		}
+	}
+
+	printf("Merge Sort(전) : ");
+	for (i = 0; i < n; i++) {
+		printf("%d ", list[i]);
+	}
+	printf("\n\n");
+
+	merge_sort(list, 0, 99);
+	printf("Merge_Sort(후) : ");
+	for (i = 0; i < n; i++) {
+		printf("%d ", list[i]);
+	}
+	printf("\n\n");
+
+	return 0;
+}
