@@ -22,7 +22,7 @@ void error(const char *message)
 
 void init(QueueType *q)
 {
-    q->rear = q->front = 0;
+    q->front = q->rear = 0;
 }
 
 
@@ -48,7 +48,7 @@ int dequeue(QueueType *q)
 {
     if (is_empty(q)) 
         error("큐가 공백상태입니다.");
-    q->rear = (q->front + 1) % MAX_QUEUE_SIZE;
+    q->front = (q->front + 1) % MAX_QUEUE_SIZE;
     return q->data[q->front];
 }
 
