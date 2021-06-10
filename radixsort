@@ -1,0 +1,223 @@
+//다소 메모리 낭비적이고,, 교수님이 알려주신 알고리즘은 아니지만,, 성공은 했음니다ㅜㅜ
+
+#include <stdio.h>;
+#include <stdlib.h>;
+#include <time.h>;
+
+#define MAX_SIZE 100;
+
+typedef struct ListNode {
+    struct ListNode* link;
+	int data;
+    int size;
+};
+
+ListNode* create(ListNode* node, int data) {
+	ListNode* list = (ListNode*)malloc(sizeof(ListNode));
+	list->data = data;
+	list->link = NULL;
+    list->size = 0;
+	node = list;
+	return node;
+}
+
+ListNode* insert(ListNode* node, int data) {
+	if (node == NULL) {
+        ListNode* list = create(node, data);
+        node = list;
+	}
+	else {
+		ListNode* temp;
+		ListNode* tail = create(node, data);
+		temp = node;
+		while (temp->link != NULL) {
+			temp = temp->link;
+		}
+        node->size++;
+		temp->link = tail;
+	}
+	return node;
+} 
+
+ListNode* Delete(ListNode* node) {
+    node = node->link;
+    return node;
+}
+
+void print_list(ListNode* list) {
+    ListNode* p = list;
+    for (; p!=NULL; p= p->link) {
+        printf("{%d}", p->data);
+    }
+    printf("\n");
+}
+
+ListNode* ListMerge(ListNode* head, ListNode* tail) {
+    ListNode* p = tail;
+    for (; p != NULL; p = p->link) {
+        head = insert(head, p->data);
+    }
+    return head;
+}
+
+
+
+ListNode* radix_sort_nextdigit(ListNode* bucket) {
+    ListNode* ZERO = NULL;
+    ListNode* ONE = NULL;
+    ListNode* TWO = NULL;
+    ListNode* THREE = NULL;
+    ListNode* FOUR = NULL;
+    ListNode* FIVE = NULL;
+    ListNode* SIX = NULL;
+    ListNode* SEVEN = NULL;
+    ListNode* EIGHT = NULL;
+    ListNode* NINE = NULL;
+    ListNode* digitsort = NULL;
+    ListNode* p = bucket;
+
+    int remainder;
+    int factor = 10;
+    for (; p != NULL; p = p->link) {
+        remainder = (p->data / factor) % 10;
+        switch (remainder) {
+        case 0:
+            ZERO = insert(ZERO, p->data);
+            break;
+        case 1:
+            ONE = insert(ONE, p->data);break;
+        case 2:
+            TWO = insert(TWO, p->data); break;
+        case 3:
+            THREE = insert(THREE, p->data);   break;
+        case 4:
+            FOUR= insert(FOUR, p->data);      break;
+        case 5:
+            FIVE= insert(FIVE, p->data); break;
+        case 6:
+            SIX = insert(SIX, p->data); break;
+          
+        case 7:
+            SEVEN= insert(SEVEN, p->data); break;
+           
+        case 8:
+            EIGHT = insert(EIGHT, p->data); break;
+         
+        case 9:
+            NINE = insert(NINE, p->data); break;
+          
+        }
+    }
+    
+    digitsort = ListMerge(digitsort, ZERO);
+    digitsort = ListMerge(digitsort, ONE);
+    digitsort = ListMerge(digitsort, TWO);
+    digitsort = ListMerge(digitsort, THREE);
+    digitsort = ListMerge(digitsort, FOUR);
+    digitsort = ListMerge(digitsort, FIVE);
+    digitsort = ListMerge(digitsort, SIX);
+    digitsort = ListMerge(digitsort, SEVEN);
+    digitsort = ListMerge(digitsort, EIGHT);
+    digitsort = ListMerge(digitsort, NINE);
+   
+    return digitsort;
+}
+
+ListNode* radix_sort(int list[]) {
+    ListNode* ZERO = NULL;
+    ListNode* ONE = NULL;
+    ListNode* TWO = NULL;
+    ListNode* THREE = NULL;
+    ListNode* FOUR = NULL;
+    ListNode* FIVE = NULL;
+    ListNode* SIX = NULL;
+    ListNode* SEVEN = NULL;
+    ListNode* EIGHT = NULL;
+    ListNode* NINE = NULL;
+    ListNode* digitsort = NULL;
+
+    for (int i = 0; i < 20; i++) {
+        if (list[i] % 10 == 0) {
+            ZERO = insert(ZERO, list[i]);
+        }
+        if (list[i] % 10 == 1) {
+            ONE = insert(ONE, list[i]);
+        }
+        if (list[i] % 10 == 2) {
+            TWO = insert(TWO, list[i]);
+        }
+        if (list[i] % 10 == 3) {
+            THREE = insert(THREE, list[i]);
+        }
+        if (list[i] % 10 == 4) {
+            FOUR = insert(FOUR, list[i]);
+        }
+        if (list[i] % 10 == 5) {
+            FIVE = insert(FIVE, list[i]);
+        }
+        if (list[i] % 10 == 6) {
+            SIX = insert(SIX, list[i]);
+        }
+        if (list[i]%10 == 7) {
+            SEVEN = insert(SEVEN, list[i]);
+        }
+        if (list[i]%10 == 8) {
+            EIGHT = insert(EIGHT, list[i]);
+        }
+        if (list[i]%10== 9) {
+            NINE = insert(NINE, list[i]);
+        }
+    }
+    ZERO = radix_sort_nextdigit(ZERO);
+    ONE = radix_sort_nextdigit(ONE);
+    TWO = radix_sort_nextdigit(TWO);
+    THREE = radix_sort_nextdigit(THREE);
+    FOUR = radix_sort_nextdigit(FOUR);
+    FIVE = radix_sort_nextdigit(FIVE);
+    SIX = radix_sort_nextdigit(SIX);
+    SEVEN = radix_sort_nextdigit(SEVEN);
+    EIGHT = radix_sort_nextdigit(EIGHT);
+    NINE = radix_sort_nextdigit(NINE);
+    
+    digitsort = ListMerge(digitsort, ZERO);
+    digitsort = ListMerge(digitsort, ONE);
+    digitsort = ListMerge(digitsort, TWO);
+    digitsort = ListMerge(digitsort, THREE);
+    digitsort = ListMerge(digitsort, FOUR);
+    digitsort = ListMerge(digitsort, FIVE);
+    digitsort = ListMerge(digitsort, SIX);
+    digitsort = ListMerge(digitsort, SEVEN);
+    digitsort = ListMerge(digitsort, EIGHT);
+    digitsort = ListMerge(digitsort, NINE);
+    
+    digitsort = radix_sort_nextdigit(digitsort);
+    return digitsort;
+}
+
+int main() {
+	
+
+    int list[20];
+    int data;
+    ListNode* result;
+
+    srand(time(NULL));
+    for (int i = 0; i < 20; i++) {
+        list[i] = rand() % 100;
+        for (int j = 0; j < i; j++) {
+            if (list[j] == list[i]) {
+                i--;
+                break;
+            }
+        }
+    }
+    
+
+    for (int i = 0; i<20; i++) {
+        printf("[%d] ", list[i]);
+    }printf("\n");
+
+   result = radix_sort(list);
+   print_list(result);
+ 
+}
