@@ -1,0 +1,200 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int partition(int list[], int left, int right)
+{
+	int pivot, tmp, low, high;
+
+	low = left;
+	high = right + 1;
+	pivot = list[left];
+	do {
+		do
+			low++;
+		while (low <= right && list[low] < pivot);
+		do
+			high--;
+		while (high >= left && list[high] > pivot);
+		if (low < high) {
+			tmp = list[low];
+			list[low] = list[high];
+			list[high] = tmp;
+		}
+	} while (low < high);
+
+	tmp = list[left];
+	list[left] = list[high];
+	list[high] = tmp;
+
+	return high;
+}
+
+void quick_sort(int list[], int left, int right)
+{
+	if (left < right) {
+		int q = partition(list, left, right);
+		quick_sort(list, left, q - 1);
+		quick_sort(list, q + 1, right);
+	}
+}
+
+typedef struct ListNode {
+	int data;
+	struct ListNode* link;
+}ListNode;
+
+ListNode* insert(ListNode* head, int data)
+{
+	ListNode* node = (ListNode*)malloc(sizeof(ListNode));
+	node->data = data;
+	if (head == NULL) {
+		head = node;
+		node->link = head;
+	}
+	else {
+		node->link = head->link;
+		head->link = node;
+		head = node;
+	}
+	return head;
+}
+
+void print_list(ListNode* head)
+{
+	ListNode* p;
+	if (head == NULL) return;
+	p = head->link;
+	do {
+		printf("[%d]->", p->data);
+		p = p->link;
+	} while (p != head);
+	printf("[%d]->", p->data);
+}
+
+int main(void)
+{
+	int i, x, y, tmp;
+	int list[100];
+	int n = 100;
+	srand(time(NULL));
+
+	for (i = 0; i < n; i++) { // Quick Sort
+		list[i] = i;
+	}
+	for (i = 0; i < 250; i++) {
+		x = rand() % n;
+		y = rand() % n;
+
+		if (x != y) {
+			tmp = list[x];
+			list[x] = list[y];
+			list[y] = tmp;
+		}
+	}
+
+	printf("Quick Sort(전) : ");
+	for (i = 0; i < n; i++) {
+		printf("%d ", list[i]);
+	}
+	printf("\n\n");
+
+	quick_sort(list, 0, n - 1);
+	printf("Quick Sort(후) : ");
+	for (i = 0; i < n; i++) {
+		printf("%d ", list[i]);
+	}
+	printf("\n\n");
+
+	ListNode* h0 = NULL;
+	ListNode* h1 = NULL;
+	ListNode* h2 = NULL;
+	ListNode* h3 = NULL;
+	ListNode* h4 = NULL;
+	ListNode* h5 = NULL;
+	ListNode* h6 = NULL;
+	ListNode* h7 = NULL;
+	ListNode* h8 = NULL;
+	ListNode* h9 = NULL;
+
+	int Radix_list[10];
+
+	for (i = 0; i < 10; i++) { // Radix Sort
+		Radix_list[i] = i;
+	}
+	for (i = 0; i < 20; i++) {
+		x = rand() % 10;
+		y = rand() % 10;
+
+		if (x != y) {
+			tmp = Radix_list[x];
+			Radix_list[x] = Radix_list[y];
+			Radix_list[y] = tmp;
+		}
+	}
+	
+	printf("Radix Sort(전) : ");
+	for (i = 0; i < 10; i++) {
+		printf("%d ", Radix_list[i]);
+	}
+	printf("\n\n");
+
+	for (i = 0; i < 10; i++) {
+		switch (Radix_list[i] % 10) {
+		case 0:
+			h0 = insert(h0, Radix_list[i]);
+			break;
+		case 1:
+			h1 = insert(h0, Radix_list[i]);
+			break;
+		case 2:
+			h2 = insert(h0, Radix_list[i]);
+			break;
+		case 3:
+			h3 = insert(h0, Radix_list[i]);
+			break;
+		case 4:
+			h4 = insert(h0, Radix_list[i]);
+			break;
+		case 5:
+			h5 = insert(h0, Radix_list[i]);
+			break;
+		case 6:
+			h6 = insert(h0, Radix_list[i]);
+			break;
+		case 7:
+			h7 = insert(h0, Radix_list[i]);
+			break;
+		case 8:
+			h8 = insert(h0, Radix_list[i]);
+			break;
+		case 9:
+			h9 = insert(h0, Radix_list[i]);
+			break;
+		}
+	}
+
+	printf("Radix Sort(후) : \n");
+	print_list(h0);
+	printf("\n\n");
+	print_list(h1);
+	printf("\n\n");
+	print_list(h2);
+	printf("\n\n");
+	print_list(h3);
+	printf("\n\n");
+	print_list(h4);
+	printf("\n\n");
+	print_list(h5);
+	printf("\n\n");
+	print_list(h6);
+	printf("\n\n");
+	print_list(h7);
+	printf("\n\n");
+	print_list(h8);
+	printf("\n\n");
+	print_list(h9);
+	printf("\n\n");
+
+	return 0;
+}
