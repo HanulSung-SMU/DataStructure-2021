@@ -111,35 +111,3 @@ int main(void)
         printf("이진 탐색 트리에서 33을 발견못함 \n");
     return 0;
 }
-//전위순회
-preorder(TreeNode* root) {
-	if (root) {
-		printf("[%d] ", root->data);
-		preorder(root->left);
-		preorder(root->right);
-	}
-}
-
-//후위순회
-postorder(TreeNode* root) {
-	if (root) {
-		postorder(root->left);
-		postorder(root->right);
-		printf("[%d] ", root->data);
-	}
-}
-
-int main(void) {
-	printf("중위순회=");
-	inorder(root);
-	printf("\n");
-
-	printf("전위순회=");
-	preorder(root);
-	printf("\n");
-
-	printf("후위순회=");
-	postorder(root);
-	printf("\n");
-	return 0;
-}
